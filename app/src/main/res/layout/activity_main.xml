@@ -24,7 +24,6 @@
             app:shapeAppearanceOverlay="@style/RoundedImage"
             android:padding="5dp"/>
 
-
         <SearchView
             android:layout_width="0dp"
             android:layout_height="40dp"
@@ -69,7 +68,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/home_icon"
-            android:textDirection="@integer/material_motion_duration_long_1"
             android:text="Home" />
 
         <com.google.android.material.tabs.TabItem
