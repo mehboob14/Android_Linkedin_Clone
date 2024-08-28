@@ -1,14 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ProfileFragment">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/linear"
+    >
+    <ImageView
+        android:layout_marginTop="10dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_close"/>
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/profile_img"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:src="@drawable/profile"
+        android:clickable="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="2dp"
+        app:shapeAppearanceOverlay="@style/RoundedImage"
+        android:padding="5dp"/>
+ <Spinner
+     android:id="@+id/spinner"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+  />
+
+    <Button
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="150dp"
+        android:text="Post" />
+
+</LinearLayout>
+
+    <EditText
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:layout_alignBottom="@+id/linear"
+        android:layout_marginBottom="-30dp"
+        android:hint="Share your thoughts...." />
 
-</FrameLayout>
+</RelativeLayout>

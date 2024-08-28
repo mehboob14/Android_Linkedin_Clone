@@ -7,58 +7,66 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.google.android.material.tabs.TabLayout;
+
+
 public class HomeFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public HomeFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_home,container,false);
+        LinearLayout linearcontainer = view.findViewById(R.id.post_container);
+
+        String[] Posts = getResources().getStringArray(R.array.posts);
+        String[] Usernames = {"Fahad Abbas","Malik Muazzam","Saim","Ali Hamza","Dilshad Dilawar","Numman ali"};
+        String[] Posttimes = {"2 hours ago","1 day ago","11 min ago","1 weak ago","13 hours ago","3 days ago"};
+        String[] PostContent = {"love to Code","","Workhard beats tilent where tilent fails to hardwork","sample post content","sample post"};
+
+        for(int i = 0;i<6;i++){
+            View postView = inflater.inflate(R.layout.item_post,container,false);
+            ImageView profilePic = postView.findViewById(R.id.profile_picture);
+            TextView userName = postView.findViewById(R.id.post_user_name);
+            TextView postTime = postView.findViewById(R.id.post_time);
+            TextView postContent = postView.findViewById(R.id.post_content_text);
+            ImageView postContentImage = postView.findViewById(R.id.post_content_image);
+           // ImageView image1 = postView.findViewById(R.id.image1);
+
+            TabLayout tabLayout = postView.findViewById(R.id.tablayout);
+           TabLayout.Tab tab1 = tabLayout.newTab();
+            TabLayout.Tab tab2 = tabLayout.newTab();
+            TabLayout.Tab tab3 = tabLayout.newTab();
+            TabLayout.Tab tab4 = tabLayout.newTab();
+
+            tab4.setIcon(R.drawable.send);
+            tab2.setIcon(R.drawable.comment);
+            tab3.setIcon(R.drawable.refresh);
+            tab1.setIcon(R.drawable.like);
+
+
+
+           tabLayout.addTab(tab1);
+            tabLayout.addTab(tab2);
+            tabLayout.addTab(tab3);
+            tabLayout.addTab(tab4);
+
+            userName.setText(Usernames[i]);
+           // postContent.setText(PostContent[i]);
+            postContent.setText(Posts[i]);
+            postTime.setText(Posttimes[i]);
+
+            if(i%2 ==0){
+                postContentImage.setVisibility(View.VISIBLE);
+
+            }
+            linearcontainer.addView(postView);
+
+        }
+        return view;
     }
 }

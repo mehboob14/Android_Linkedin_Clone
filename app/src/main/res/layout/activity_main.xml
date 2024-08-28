@@ -15,10 +15,11 @@
         android:layout_marginTop="5dp">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/roundedImageView"
+            android:id="@+id/profile_img"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/profile"
+            android:clickable="true"
             android:layout_gravity="center"
             android:layout_marginTop="2dp"
             app:shapeAppearanceOverlay="@style/RoundedImage"
@@ -26,25 +27,24 @@
 
         <SearchView
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="37dp"
             android:layout_weight="1"
             android:iconifiedByDefault="false"
             android:queryHint="Search"
-            app:iconifiedByDefault="false"
-            android:background="@color/searchbar"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
+            style="@style/CustomSearchViewStyle" />
 
-            />
 
         <ImageButton
+            android:id="@+id/messaging"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:background="@android:color/transparent"
             android:src="@drawable/messge_icon" />
 
     </LinearLayout>
-
 
     <FrameLayout
         android:id="@+id/framelayout"
@@ -53,9 +53,8 @@
         android:layout_weight="1"
         android:layout_below="@id/linearLayout"
         android:layout_above="@id/tablayout"
-        android:layout_marginBottom="56dp">
+        android:layout_marginBottom="5dp">
     </FrameLayout>
-
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tablayout"
@@ -67,31 +66,27 @@
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/home_icon"
-            android:text="Home" />
+           />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/network_icon"
-            android:text="MyNetwork" />
+            />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/post_icon"
-            android:text="Post" />
+           />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/notifications_icon"
-            android:text="Notifications" />
+           />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Jobs" />
+            />
 
     </com.google.android.material.tabs.TabLayout>
 

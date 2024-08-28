@@ -9,18 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.google.android.material.tabs.TabLayout;
+public class JobFragment extends Fragment {
 
-public class AboutFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_about,container,false);
-      //  TabLayout tabLayout = view.findViewById(R.id.tablayout);
-
-        return view;
-
+        return inflater.inflate(R.layout.fragment_job, container, false);
     }
 }

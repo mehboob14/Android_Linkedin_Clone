@@ -1,18 +1,33 @@
 package com.example.tabularview;
 
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
+import com.google.android.material.imageview.ShapeableImageView;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.tabs.TabLayout;
+
+import kotlinx.coroutines.Job;
 
 public class MainActivity extends AppCompatActivity {
     TabLayout tabLayout;
@@ -20,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     FrameLayout framelayout;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+    ImageButton imgBtn;
+   ShapeableImageView profile_img;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,17 +46,46 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tablayout);
         framelayout = findViewById(R.id.framelayout);
 
-        tabLayout.getTabAt(0).setIcon(R.drawable.home_icon).setText("Home");
-        tabLayout.getTabAt(1).setIcon(R.drawable.network_icon).setText("MyNetwork");
-       tabLayout.getTabAt(2).setIcon(R.drawable.post_icon).setText("Post");
-        tabLayout.getTabAt(3).setIcon(R.drawable.notifications_icon).setText("Notifications");
-        //tabLayout.getTabAt(4).setIcon(R.drawable.job_icon).setText("Jobs");
+        tabLayout.getTabAt(0).setIcon(R.drawable.home).setText("Home");
+        tabLayout.getTabAt(1).setIcon(R.drawable.friend).setText("MyNetwork");
+        tabLayout.getTabAt(2).setIcon(R.drawable.more).setText("Post");
+        tabLayout.getTabAt(3).setIcon(R.drawable.active).setText("Notifications");
+        tabLayout.getTabAt(4).setIcon(R.drawable.suitcase).setText("Jobs");
+        imgBtn = findViewById(R.id.messaging);
+        profile_img = findViewById(R.id.profile_img);
+
+
+        profile_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LayoutInflater layoutInflater = getLayoutInflater();
+                View dialogView = layoutInflater.inflate(R.layout.dialog, null);
+
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this, android.R.style.Theme_Material_Light_NoActionBar_Fullscreen);
+                dialogBuilder.setView(dialogView);
+
+                AlertDialog dialog = dialogBuilder.create();
+
+
+                dialog.show();
+                Window window = dialog.getWindow();
+                if (window != null) {
+                    window.setGravity(Gravity.START);
+
+                    window.setLayout(
+                            (int) (getResources().getDisplayMetrics().widthPixels * 0.8),
+                            (int) (getResources().getDisplayMetrics().heightPixels * 1)
+                    );
+                }
+            }
+        });
 
 
         fragment = new HomeFragment();
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.framelayout, fragment);
+        fragmentTransaction.setCustomAnimations(R.anim.slide_in,R.anim.slide_out,R.anim.pop_enter,R.anim.pop_remove);
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         fragmentTransaction.commit();
 
@@ -59,6 +105,9 @@ public class MainActivity extends AppCompatActivity {
                     case 3:
                         fragment = new ContactsUs();
                         break;
+                    case 4:
+                        fragment = new JobFragment();
+                        break;
                 }
                 FragmentManager fn = getSupportFragmentManager();
                 FragmentTransaction ft = fn.beginTransaction();
@@ -69,16 +118,16 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                // Handle tab unselected state if needed
+
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                // Handle tab reselected state if needed
+
             }
         });
 
-        // Enable edge-to-edge mode
+
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -86,5 +135,25 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+    }
+    public void showPopUp(View view){
+        PopupMenu popupMenu = new PopupMenu(MainActivity.this,view);
+        popupMenu.getMenuInflater().inflate(R.menu.profile_menu,popupMenu.getMenu());
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch(item.getItemId()){
+                    case 0:
+                        Toast.makeText(MainActivity.this, "Settings Clicked", Toast.LENGTH_SHORT).show();
+                        return true;
+                }
+
+                return false;
+            }
+        });
+
+        popupMenu.show();
     }
 }
