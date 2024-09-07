@@ -77,33 +77,53 @@ android:textSize="12sp"
         android:text=""
         android:layout_above="@id/action_settings"
         android:layout_marginBottom="8dp" />
-
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-
-    android:id="@+id/action_settings"
-    android:layout_alignParentBottom="true"
-    android:orientation="horizontal"
-
-    >
-
-
-    <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:src="@drawable/settings"
-        android:padding="2dp"/>
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        android:layout_marginLeft="4dp"
-       android:layout_marginTop="5dp"
-        android:text="Settings"/>
-</LinearLayout>
+        android:layout_marginLeft="200dp"
+        android:id="@+id/action_settings"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/settings"
+                android:padding="2dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="5dp"
+                android:text="Settings"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp">
+            <ImageView
+                android:id="@+id/logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/logout_icon"
+                android:clickable="true"
+                android:layout_marginTop="5dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:textStyle="bold"
+                android:clickable="true"
+                android:text="Logout"/>
 
-
-
+        </LinearLayout>
+    </LinearLayout>
 </RelativeLayout>

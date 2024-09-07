@@ -1,6 +1,10 @@
 package com.example.tabularview;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
+import android.os.SharedMemory;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -10,6 +14,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -25,7 +30,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.imageview.ShapeableImageView;
+import com.google.android.material.shadow.ShadowRenderer;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import kotlinx.coroutines.Job;
 
@@ -41,7 +49,23 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+
+        SharedPreferences sharedPreferences = getSharedPreferences("for_login",MODE_PRIVATE);
+        Boolean isFistTime = sharedPreferences.getBoolean("isFirstTime",true);
+        Boolean isLogged = sharedPreferences.getBoolean("isLogged",false);
+
+        if(isFistTime){
+            Intent i = new Intent(getApplicationContext(), SignUp.class);
+            startActivity(i);
+            finish();
+        }else if(!isLogged){
+            Intent i = new Intent(getApplicationContext(), Login.class);
+            startActivity(i);
+            finish();
+        }else {
+           setContentView(R.layout.activity_main);
+        }
 
         tabLayout = findViewById(R.id.tablayout);
         framelayout = findViewById(R.id.framelayout);
@@ -53,35 +77,10 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(4).setIcon(R.drawable.suitcase).setText("Jobs");
         imgBtn = findViewById(R.id.messaging);
         profile_img = findViewById(R.id.profile_img);
-
-
-        profile_img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LayoutInflater layoutInflater = getLayoutInflater();
-                View dialogView = layoutInflater.inflate(R.layout.dialog, null);
-
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this, android.R.style.Theme_Material_Light_NoActionBar_Fullscreen);
-                dialogBuilder.setView(dialogView);
-
-                AlertDialog dialog = dialogBuilder.create();
-
-
-                dialog.show();
-                Window window = dialog.getWindow();
-                if (window != null) {
-                    window.setGravity(Gravity.START);
-
-                    window.setLayout(
-                            (int) (getResources().getDisplayMetrics().widthPixels * 0.8),
-                            (int) (getResources().getDisplayMetrics().heightPixels * 1)
-                    );
-                }
-            }
-        });
-
+        ImageView logout = findViewById(R.id.logout);
 
         fragment = new HomeFragment();
+       // fragment = new Post_Fragment_Item();
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.framelayout, fragment);
@@ -134,6 +133,46 @@ public class MainActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+
+        profile_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LayoutInflater layoutInflater = getLayoutInflater();
+                View dialogView = layoutInflater.inflate(R.layout.dialog, null);
+
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this, android.R.style.Theme_Material_Light_NoActionBar_Fullscreen);
+                dialogBuilder.setView(dialogView);
+                dialogView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putBoolean("isLogged",false);
+                        editor.putBoolean("isFirstTime",true);
+
+                        Intent i = new Intent(getApplicationContext(), Login.class);
+                        startActivity(i);
+                        finish();
+                    }
+                });
+
+                AlertDialog dialog = dialogBuilder.create();
+
+
+                dialog.show();
+                Window window = dialog.getWindow();
+                if (window != null) {
+                    window.setGravity(Gravity.START);
+
+                    window.setLayout(
+                            (int) (getResources().getDisplayMetrics().widthPixels * 0.8),
+                            (int) (getResources().getDisplayMetrics().heightPixels * 1)
+                    );
+                }
+            }
         });
 
     }

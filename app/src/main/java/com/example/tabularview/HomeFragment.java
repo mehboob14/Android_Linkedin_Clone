@@ -1,72 +1,69 @@
 package com.example.tabularview;
 
+import static android.content.ContentValues.TAG;
+
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.google.android.material.tabs.TabLayout;
-
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class HomeFragment extends Fragment {
-
+    private DatabaseReference postsDatabase;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home,container,false);
-        LinearLayout linearcontainer = view.findViewById(R.id.post_container);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        LinearLayout linearContainer = view.findViewById(R.id.post_container);
 
-        String[] Posts = getResources().getStringArray(R.array.posts);
-        String[] Usernames = {"Fahad Abbas","Malik Muazzam","Saim","Ali Hamza","Dilshad Dilawar","Numman ali"};
-        String[] Posttimes = {"2 hours ago","1 day ago","11 min ago","1 weak ago","13 hours ago","3 days ago"};
-        String[] PostContent = {"love to Code","","Workhard beats tilent where tilent fails to hardwork","sample post content","sample post"};
+       /* postsDatabase = FirebaseDatabase.getInstance().getReference("posts");
 
-        for(int i = 0;i<6;i++){
-            View postView = inflater.inflate(R.layout.item_post,container,false);
-            ImageView profilePic = postView.findViewById(R.id.profile_picture);
-            TextView userName = postView.findViewById(R.id.post_user_name);
-            TextView postTime = postView.findViewById(R.id.post_time);
-            TextView postContent = postView.findViewById(R.id.post_content_text);
-            ImageView postContentImage = postView.findViewById(R.id.post_content_image);
-           // ImageView image1 = postView.findViewById(R.id.image1);
+        postsDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                linearContainer.removeAllViews();
 
-            TabLayout tabLayout = postView.findViewById(R.id.tablayout);
-           TabLayout.Tab tab1 = tabLayout.newTab();
-            TabLayout.Tab tab2 = tabLayout.newTab();
-            TabLayout.Tab tab3 = tabLayout.newTab();
-            TabLayout.Tab tab4 = tabLayout.newTab();
-
-            tab4.setIcon(R.drawable.send);
-            tab2.setIcon(R.drawable.comment);
-            tab3.setIcon(R.drawable.refresh);
-            tab1.setIcon(R.drawable.like);
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    String username = postSnapshot.child("userName").getValue(String.class);
+                    String postTime = postSnapshot.child("postTime").getValue(String.class);
+                    String postContent = postSnapshot.child("postContent").getValue(String.class);
+                    String profilePicUrl = postSnapshot.child("profilePicture").getValue(String.class);
 
 
+                    Post_Fragment_Item postFragment = new Post_Fragment_Item(username, postTime, postContent, R.drawable.profile);
 
-           tabLayout.addTab(tab1);
-            tabLayout.addTab(tab2);
-            tabLayout.addTab(tab3);
-            tabLayout.addTab(tab4);
-
-            userName.setText(Usernames[i]);
-           // postContent.setText(PostContent[i]);
-            postContent.setText(Posts[i]);
-            postTime.setText(Posttimes[i]);
-
-            if(i%2 ==0){
-                postContentImage.setVisibility(View.VISIBLE);
-
+                    FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+                    transaction.add(R.id.post_container, postFragment).commit();
+                }
             }
-            linearcontainer.addView(postView);
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d(TAG, "onCancelled: something goes ");
+            }
+        });
+*/
+        String[] usernames = {"Fahad Abbas", "Malik Muazzam", "Saim", "Ali Hamza", "Dilshad Dilawar", "Numman Ali"};
+        String[] postTimes = {"2 hours ago", "1 day ago", "11 min ago", "1 week ago", "13 hours ago", "3 days ago"};
+        String[] postContents = {"Love to Code", "Enjoying life", "Work hard beats talent", "Learning Android", "Sample post content", "Coding challenge"};
+        int[] profilePics = {R.drawable.profile, R.drawable.profile, R.drawable.profile, R.drawable.profile, R.drawable.profile, R.drawable.profile};
+
+        for (int i = 0; i < usernames.length; i++) {
+            Post_Fragment_Item postFragment = new Post_Fragment_Item(usernames[i], postTimes[i], postContents[i], profilePics[i]);
+
+            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+            transaction.add(R.id.post_container, postFragment).commit();
         }
+
         return view;
     }
 }
